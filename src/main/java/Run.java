@@ -22,6 +22,7 @@ import res.http.HTTPServer.*;
 
 public class Run {
 	
+	// Grabs the pixels from a buffered image and converts them to our specified format
 	static String getPixels(BufferedImage img) {
 		StringBuilder pixelString = new StringBuilder();
 		
@@ -46,6 +47,7 @@ public class Run {
 	return pixelString.toString();
 	}
 	
+	// Mokiros revealed quite a few image processing techniques/algorithms for use here!
 	static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
 	    BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
 	    Graphics2D graphics2D = resizedImage.createGraphics();
@@ -53,21 +55,21 @@ public class Run {
 	    graphics2D.dispose();
 	    return resizedImage;
 	}
-	
+	// uses modificed lanczos formula
 	static BufferedImage scaledInstanceResize(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
 	    Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_DEFAULT);
 	    BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
 	    outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 	    return outputImage;
 	}
-	
+	// Smooth image with some quality loss
 	static BufferedImage LanczosResize(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
 		ResampleOp resizeOp = new ResampleOp(targetWidth, targetHeight);
 		resizeOp.setFilter(ResampleFilters.getLanczos3Filter());
 		BufferedImage scaledImage = resizeOp.filter(originalImage, null);
 		return scaledImage;
 	}
-	
+	// Accepts directly the algorithm and compression methods as outlines in java docs
 	static BufferedImage anyResize(BufferedImage source, int targetWidth, int destHeight, Object interpolation)
 	{
 	    BufferedImage bicubic = new BufferedImage(targetWidth, destHeight, source.getType());
@@ -83,6 +85,7 @@ public class Run {
 	
 	public static void main(String[] args) {
 
+		// This is where the port for the HTTPServer is specified (Should be a .properties file probably)
         HTTPServer server = new HTTPServer(3074);
         
         VirtualHost host = server.getVirtualHost(null); // default host
@@ -167,13 +170,6 @@ public class Run {
         			default:
 	        			//System.out.println("Using default downsize at "+resolution);
 	        			image = resizeImage(image, resX, resY); // Using java.awt Graphics2d resize
-        		}
-        		
-        		try {
-        		    File outputfile = new File("saved.png");
-        		    ImageIO.write(image, "png", outputfile);
-        		} catch (IOException e) {
-        			e.printStackTrace();
         		}
         		
         		String pixelData = getPixels(image);
