@@ -125,7 +125,7 @@ public class Run {
         		String[] splitRes = resolution.split("x");
             	
         		if(splitRes.length != 2)
-        			resp.send(400, "{\"error\":\"bad resolution format (177x72)\"");
+        			resp.send(400, "{\"error\":\"bad resolution format (177x72)\"}");
         		
         		int resX = Integer.parseInt(splitRes[0]);
         		int resY = Integer.parseInt(splitRes[1]);
