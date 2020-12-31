@@ -8,11 +8,8 @@ import java.awt.RenderingHints;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-
-import javax.imageio.ImageIO;
 
 import com.mortennobel.imagescaling.ResampleFilters;
 import com.mortennobel.imagescaling.ResampleOp;
@@ -123,7 +120,7 @@ public class Run {
         		
         		// do resolution parsing
         		String[] splitRes = resolution.split("x");
-            	
+        		
         		if(splitRes.length != 2)
         			resp.send(400, "{\"error\":\"bad resolution format (177x72)\"}");
         		
