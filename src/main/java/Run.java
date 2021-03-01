@@ -21,7 +21,7 @@ public class Run {
 	
 	// Grabs the pixels from a buffered image and converts them to our specified format
 	static String getPixels(BufferedImage img) {
-		StringBuilder pixelString = new StringBuilder();
+	    StringBuilder pixelString = new StringBuilder();
 		
 	      for (int y = 0; y < img.getHeight(); y++) {
 	         for (int x = 0; x < img.getWidth(); x++) {
@@ -30,15 +30,13 @@ public class Run {
 	            //Creating a Color object from pixel value
 	            Color color = new Color(pixel, true);
 	            //Retrieving the R G B values
-	            int red = color.getRed();
-	            int green = color.getGreen();
-	            int blue = color.getBlue();
-	            pixelString.append(red+":");
-	            pixelString.append(green+":");
-	            pixelString.append(blue+"");
-	            pixelString.append(",");
+	            char red = (char) color.getRed();
+	            char green = (char) color.getGreen();
+	            char blue = (char) color.getBlue();
+	            pixelString.append(red);
+	            pixelString.append(green);
+	            pixelString.append(blue);
 	         }
-	         pixelString.append("\n");
 	      }
 		
 	return pixelString.toString();
@@ -171,7 +169,7 @@ public class Run {
         		
         		String pixelData = getPixels(image);
                 
-                resp.getHeaders().add("Content-Type", "text/plain");
+                resp.getHeaders().add("Content-Type", "application/octet-stream");
                 resp.send(200, pixelData);
                 return 0;
             }
