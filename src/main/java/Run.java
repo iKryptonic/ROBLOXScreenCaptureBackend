@@ -20,6 +20,27 @@ import res.http.HTTPServer.*;
 public class Run {
 	
 	// Grabs the pixels from a buffered image and converts them to our specified format
+    
+        static int getR(int rgba)
+        {
+            return (rgba >> 24) & 0xFF;
+        }
+        
+        static int getG(int rgba)
+        {
+            return (rgba >> 16) & 0xFF;
+        }
+        
+        static int getB(int rgba)
+        {
+            return (rgba >> 8) & 0xFF;
+        }
+        
+        static int getA(int rgba)
+        {
+            return (rgba >> 0) & 0xFF;
+        }
+    
 	static String getPixels(BufferedImage img) {
 	    StringBuilder pixelString = new StringBuilder();
 		
@@ -33,12 +54,15 @@ public class Run {
 	            char red = (char) color.getRed();
 	            char green = (char) color.getGreen();
 	            char blue = (char) color.getBlue();
+	            
+	            pixelString.append(pixel);
+	            /*
 	            pixelString.append(red);
 	            pixelString.append(green);
 	            pixelString.append(blue);
+	            */
 	         }
 	      }
-		
 	return pixelString.toString();
 	}
 	
@@ -106,7 +130,7 @@ public class Run {
             	String resolutionOverride = "default";
             	String resolution = "177x72";
             	
-        		for (Map.Entry<String, String> entry : params.entrySet()) {
+        	for (Map.Entry<String, String> entry : params.entrySet()) {
             	    if(entry.getKey().equals("resizeMode")) {
             	    	resolutionOverride = entry.getValue().toString(); // Hopefully this is "F"
             	    } else if(entry.getKey().equals("resolution")) {
@@ -168,7 +192,6 @@ public class Run {
         		}
         		
         		String pixelData = getPixels(image);
-                
                 resp.getHeaders().add("Content-Type", "application/octet-stream");
                 resp.send(200, pixelData);
                 return 0;
