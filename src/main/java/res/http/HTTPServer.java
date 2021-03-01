@@ -1777,10 +1777,10 @@ public class HTTPServer {
          * @throws IOException if an error occurs
          */
         public void send(int status, String text) throws IOException {
-            byte[] content = text.getBytes("UTF-8");
+            byte[] content = text.getBytes();
             sendHeaders(status, content.length, -1,
                 "W/\"" + Integer.toHexString(text.hashCode()) + "\"",
-                "text/html; charset=utf-8", null);
+                "text/html;", null);
             OutputStream out = getBody();
             if (out != null)
                 out.write(content);
